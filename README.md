@@ -20,13 +20,13 @@ shell> git clone https://github.com/granti4ka/nginx_vts.git
 ```bash 
 docker build -t nginx_vts:latest .
 ```
+
 * Create New Container Based on it.
 ```bash 
 docker run -d --name nginx_vts --hostname nginx_vts_host -p 80:80 nginx_vts:latest
 ```
 
-* 
-
+* Check nginx status
 ```bash 
 http://domain.com/status
 http://domain.com/status/format/prometheus  (html, json, jsonp, prometheus)
@@ -69,8 +69,8 @@ First of all, the directive `vhost_traffic_status_zone` is required, and then if
    - If you request /status/control, will respond with a JSON document after it reset or delete zones through a query string. See the Control.
 
 ## Link
-https://github.com/vozlt/nginx-module-vts
-https://hub.docker.com/r/sophos/nginx-vts-exporter/
-https://hub.docker.com/r/xcgd/nginx-vts/dockerfile
-https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
+https://github.com/vozlt/nginx-module-vts  
+https://hub.docker.com/r/sophos/nginx-vts-exporter/  
+https://hub.docker.com/r/xcgd/nginx-vts/dockerfile  
+https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081  
 https://github.com/Parli/nginx-vts-docker
