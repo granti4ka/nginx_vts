@@ -42,7 +42,7 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
 FROM nginx:alpine
 # Extract the dynamic module NCHAN from the builder image
 
-COPY --from=builder /ngx_http_vhost_traffic_status_module.so /usr/local/nginx/modules/nginx-module-vts.so
+COPY --from=builder /ngx_http_vhost_traffic_status_module.so /usr/lib/nginx/modules/nginx-module-vts.so
 
 #COPY --from=builder /usr/lib/nginx/modules/ngx_http_vhost_traffic_status_module.so /usr/local/nginx/modules/nginx-module-vts.so
 RUN rm /etc/nginx/conf.d/default.conf
