@@ -7,8 +7,8 @@ FROM nginx:alpine AS builder
 ENV VTS_VERSION 0.1.18
 
 # Download sources
-RUN wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
-    wget "http://github.com/vozlt/nginx-module-vts/archive/v$VTS_VERSION.tar.gz" -O nginx-modules-vts.tar.gz
+RUN wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
+    wget "https://github.com/vozlt/nginx-module-vts/archive/v$VTS_VERSION.tar.gz" -O nginx-modules-vts.tar.gz
 
 # For latest build deps, see https://github.com/nginxinc/docker-nginx/blob/master/mainline/alpine/Dockerfile
 RUN apk add --no-cache --virtual .build-deps \
@@ -35,12 +35,16 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
   VTSDIR="$(pwd)/nginx-module-vts-$VTS_VERSION" && \
   cd /usr/src/nginx-$NGINX_VERSION && \
   ./configure --with-compat $CONFARGS --add-dynamic-module=$VTSDIR  && \
-  make && make install
+#  make && make install
+  make modules && \
+  mv ./objs/*.so /
 
 FROM nginx:alpine
-# Extract the dynamic module NCHAN from the builder image
+# Extract the dynamic module VTS from the builder image
 
-COPY --from=builder /usr/lib/nginx/modules/ngx_http_vhost_traffic_status_module.so /usr/local/nginx/modules/nginx-module-vts.so
+COPY --from=builder /ngx_http_vhost_traffic_status_module.so /usr/lib/nginx/modules/nginx-module-vts.so
+
+#COPY --from=builder /usr/lib/nginx/modules/ngx_http_vhost_traffic_status_module.so /usr/local/nginx/modules/nginx-module-vts.so
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY nginx.conf /etc/nginx/nginx.conf
