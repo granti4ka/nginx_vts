@@ -40,7 +40,7 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
   mv ./objs/*.so /
 
 FROM nginx:alpine
-# Extract the dynamic module NCHAN from the builder image
+# Extract the dynamic module VTS from the builder image
 
 COPY --from=builder /ngx_http_vhost_traffic_status_module.so /usr/lib/nginx/modules/nginx-module-vts.so
 
