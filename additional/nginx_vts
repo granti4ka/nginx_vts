@@ -1,0 +1,15 @@
+server {
+        listen  8081;
+        server_name  nginx-vts.local;
+
+        location / {
+            proxy_pass http://127.0.0.1:80;
+        }
+
+        location /status {
+            vhost_traffic_status_display;
+            vhost_traffic_status_display_format html;
+            allow 127.0.0.1; # Local ip
+            deny all;
+        }
+    }
